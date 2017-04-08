@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -26,6 +27,7 @@ import javafx.stage.Stage;
  * A JavaFX 8 program to run Conway's Game of Life.
  *
  * @author John Phillips
+ * Edited By Travis Mitchell
  */
 public class JavaFXLife extends Application {
 
@@ -65,9 +67,10 @@ public class JavaFXLife extends Application {
         final Menu fileMenu = new Menu("File");
         final Menu speedMenu = new Menu("Speed");
         final Menu optionsMenu = new Menu("Options");
+        final Menu colorMenu = new Menu("ColorOptions");
         final Menu helpMenu = new Menu("Help");
 
-        myBar.getMenus().addAll(fileMenu, speedMenu, optionsMenu, helpMenu);
+        myBar.getMenus().addAll(fileMenu, speedMenu, optionsMenu, colorMenu, helpMenu);
 
         /**
          * *********************************************************************
@@ -166,7 +169,21 @@ public class JavaFXLife extends Application {
         color.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
         color.setOnAction(e -> lifePane.setShowColors(color.isSelected()));
         optionsMenu.getItems().add(color);
-
+        
+         /**
+         * *********************************************************************
+         * Color Options Menu Section
+         */
+       CheckMenuItem blueC = new CheckMenuItem("Blue");
+        blueC.setAccelerator(KeyCombination.keyCombination("Ctrl+Shift+B"));
+        blueC.setOnAction(e -> lifePane.setBlue(blueC.isSelected()));
+        colorMenu.getItems().add(blueC);
+        
+        CheckMenuItem red = new CheckMenuItem("Red");
+        red.setAccelerator(KeyCombination.keyCombination("Ctrl+Shift+R"));
+        red.setOnAction(e -> lifePane.setRed(red.isSelected()));
+        colorMenu.getItems().add(red);
+                
         /**
          * *********************************************************************
          * Help Menu Section
@@ -179,7 +196,16 @@ public class JavaFXLife extends Application {
             readFile(new File("jp.txt"));
             lifePane.drawCells();
         });
-        helpMenu.getItems().add(jp);        
+        helpMenu.getItems().add(jp);    
+        
+        MenuItem Name = new MenuItem("Name");
+        Name.setOnAction(e -> {
+            lifePane.pause();
+            lifePane.clearCells();
+            readFile(new File("Name.txt"));
+            lifePane.drawCells();
+        });
+        helpMenu.getItems().add(Name); 
         
         MenuItem acorn = new MenuItem("Acorn");
         acorn.setOnAction(e -> {
